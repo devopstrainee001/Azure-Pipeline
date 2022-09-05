@@ -1,0 +1,9 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+steps:
+- script: echo  first command for pipeline
+  displayName: first_command
+- script: echo  second command for pipeline
+  displayName: second_command

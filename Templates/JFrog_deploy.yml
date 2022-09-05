@@ -1,0 +1,18 @@
+jobs:
+- job: Upload_Artifact_to_JFrog
+  steps:
+  - script: mvn clean package
+  - task: ArtifactoryGenericUpload@2
+    inputs:
+      artifactoryService: 'Artifactory-DEV'
+      specSource: 'taskConfiguration'
+      fileSpec: |
+        {
+          "files": [
+            {
+              "pattern": "target/NFCU-Training-java-0.0.1-SNAPSHOT.jar",
+              "target": "GenericKey1/Student_NameXX.jar"
+            }
+          ]
+        }
+      failNoOp: true

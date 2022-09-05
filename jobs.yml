@@ -1,0 +1,19 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+jobs:
+- job: first_job
+  steps: 
+  - script: echo first job for pipeline.
+    displayName: first_command 
+  - task: CmdLine@2
+    displayName: first_task
+      
+ 
+- job: second_job
+  steps:
+  - script: echo second job for pipeline. 
+    displayName: second_command   
+  - task: CmdLine@2
+    displayName: second_task

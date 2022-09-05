@@ -1,0 +1,12 @@
+ jobs:
+  - job: executing_unit_tests
+    dependsOn: code_compilation
+ 
+    steps:
+      - script: mvn clean test
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/TEST-*.xml'
+          testRunTitle: 'ParsingJunitTests' 
+        condition: succeededOrFailed()

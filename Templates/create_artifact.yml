@@ -1,0 +1,4 @@
+jobs:
+  - job: creating_artifact
+    steps:
+    - script: mvn clean package

@@ -1,0 +1,8 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+steps:
+- task: CmdLine@2
+  inputs:
+    script: 'echo command for pipeline'

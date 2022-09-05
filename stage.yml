@@ -1,0 +1,22 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+stages:
+- stage: first_stage
+  jobs:
+  - job: first_job
+    steps: 
+    - script: echo first stage of pipeline.
+      displayName: first_command 
+    - task: CmdLine@2
+      displayName: first_task
+        
+- stage: second_stage
+  jobs:
+  - job: second_job
+    steps:
+    - script: echo second stage of pipeline. 
+      displayName: second_command   
+    - task: CmdLine@2
+      displayName: second_task

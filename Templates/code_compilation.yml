@@ -1,0 +1,4 @@
+jobs:
+  - job: code_compilation
+    steps:
+    - script: mvn clean compile 

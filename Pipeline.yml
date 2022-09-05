@@ -1,0 +1,71 @@
+resources:
+  repositories:
+    - repository: azure-pipeline-yaml-templates
+      type: git
+      name: azure-pipeline-yaml-templates
+      ref: master
+ 
+parameters:
+ 
+- name: projectKey
+  type: string
+  default: 'ProjectKey-Student_name-XX'
+ 
+- name: sourcesDirectory
+  type: string
+  default: SonarQubeTest
+ 
+- name: sonarHostUrl
+  type: string
+  default: https://swazexvsonarq01.nfcu.net
+ 
+- name: sonarTarget
+  type: string
+  default: '**/target/**' 
+ 
+- name: sonarBinaries
+  type: string
+  default: 'target/classes'
+ 
+- name: sonarSrc
+  type: string
+  default: 'src/main/java'
+
+pool:
+ name: Cloud Pool
+ demands: []
+stages:
+ - stage: Compiling_and_Testing
+   jobs:
+   - template: Templates/code_compilation.yml
+   - template: Templates/test_execution.yml 
+  
+ - stage: Code_Quality_Check
+   dependsOn: Compiling_and_Testing
+   jobs:
+   - job: SonarQubeJob
+     steps:
+     - template: /templates/steps/sonarqube-prepare-steps.yml@azure-pipeline-yaml-templates
+       parameters:
+         scannerMode: Maven
+         sonarqubeEndpoint: SonarQube-SDBX
+         projectKey: '${{ parameters.projectKey }}'
+ 
+     - template: /templates/steps/maven-steps.yml@azure-pipeline-yaml-templates
+ 
+ 
+     - template: /templates/steps/sonarqube-publish-steps.yml@azure-pipeline-yaml-templates
+       parameters:
+        sonarqubeEndpoint: SonarQube-SDBX
+     
+ 
+     - template: /templates/steps/sonarqube-standalone-scan.yml@azure-pipeline-yaml-templates
+       parameters:
+         scannerMode: Manual
+         sonarqubeEndpoint: SonarQube-SDBX
+         projectKey: '${{ parameters.projectKey }}'
+ 
+ - stage: Creating_Artifacts
+   dependsOn: Code_Quality_Check
+   jobs:
+   - template: Templates/create_artifact.yml

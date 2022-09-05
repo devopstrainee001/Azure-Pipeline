@@ -1,0 +1,7 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+steps:
+- script: echo 'Hello World'
+  displayName: "First-Pipeline"

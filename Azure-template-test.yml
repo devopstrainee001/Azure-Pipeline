@@ -1,0 +1,6 @@
+trigger: none
+pool:
+ name: Cloud Pool
+ demands: []
+steps:
+- template: Templates/first_template.yml
