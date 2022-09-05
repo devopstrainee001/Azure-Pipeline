@@ -1,0 +1,24 @@
+parameters:
+- name: sonarqubeEndpoint
+  type: string
+  default: 'SonarQube-SDBX'
+  values:
+  - SonarQube-PROD
+  - SonarQube-SDBX
+
+- name: pollingTimeoutInSeconds
+  type: number
+  default: 300
+
+- name: condition
+  type: string
+  default: ''
+   
+
+steps:
+  - task: SonarQubePublish@4
+    displayName: 'Publish Quality Gate Result'
+    ${{ if ne(parameters.condition, '') }}:
+      condition: ${{ parameters.condition }}
+    inputs:
+      pollingTimeoutSec: ${{ parameters.pollingTimeoutInSeconds }}

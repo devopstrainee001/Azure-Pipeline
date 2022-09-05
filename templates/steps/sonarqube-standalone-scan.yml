@@ -1,0 +1,63 @@
+parameters: 
+- name: scannerMode
+  type: string
+  default: 'Manual'
+  values:
+  - Manual
+  - ManualWithConfigFile
+- name: sonarqubeEndpoint
+  type: string
+  default: 'SonarQube-SDBX'
+  values:
+  - SonarQube-PROD
+  - SonarQube-SDBX
+
+- name: projectKey
+  type: string
+  default: ''
+- name: projectName
+  type: string
+  default: 'webapp'
+- name: projectVersion
+  type: string
+  default: 'master'
+- name: extraProperties
+  type: string
+  default: ''
+- name: configFile
+  type: string
+  default: 'sonar-project.properties'
+- name: sourcesDirectory
+  type: string
+  default: '.'
+
+steps:
+ # - script: mvn clean install sonar:sonar -Dsonar.projectKey='${{ parameters.projectKey }}' -Dsonar.host.url='${{ parameters.sonarHostUrl }}' -Dsonar.login='${{ parameters.sonarToken }}' -Dsonar.exclusions='${{ parameters.sonarTarget }}' -Dsonar.java.binaries='${{ parameters.sonarBinaries }}' -Dsonar.sources='${{ parameters.sonarSrc }}'
+
+  - ${{ if eq(parameters.scannerMode, 'Manual') }}:
+    - task: SonarQubePrepare@4
+      displayName: 'Stand-Alone Scan on SonarQube'
+      inputs:
+        SonarQube: '${{ parameters.sonarqubeEndpoint }}'
+        scannerMode: CLI
+        configMode: manual
+        cliProjectKey: '${{ parameters.projectKey }}'
+        cliProjectName: '${{ parameters.projectName }}'
+        cliProjectVersion: '${{ parameters.projectVersion }}'
+        cliSources: '${{ parameters.sourcesDirectory }}'
+        extraProperties: '${{ parameters.extraProperties }}'
+
+  - ${{ if eq(parameters.scannerMode, 'ManualWithConfigFile') }}:
+    - task: SonarQubePrepare@4
+      displayName: 'Prepare Analysis on SonarQube'
+      inputs:
+        SonarQube: '${{ parameters.sonarqubeEndpoint }}'
+        scannerMode: CLI
+        configFile: '${{ parameters.configFile }}'
+
+  - task: SonarQubeAnalyze@4
+
+  - task: SonarQubePublish@4
+    displayName: 'Publish Quality Gate Result'
+    inputs:
+      pollingTimeoutSec: '300'

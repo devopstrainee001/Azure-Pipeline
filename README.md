@@ -1,29 +1,20 @@
-## TRAINING DEMO APPLICATION 
-## Java based application to Demonstrate :
-* How unit test cases execute via maven
-* Generate a test report
-* Build an Artifact 
+# Introduction 
+TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
 
+# Getting Started
+TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
+1.	Installation process
+2.	Software dependencies
+3.	Latest releases
+4.	API references
 
-### Pre-Reqs
+# Build and Test
+TODO: Describe and show how to build your code and run the tests. 
 
-### Install following software on your machine
+# Contribute
+TODO: Explain how other users and developers can contribute to make your code better. 
 
-Software dependencies are:
-* JDK 1.8 or higher
-* Maven
-
-Development dependencies are:
-* IntelliJ (Community Edition) or Similar IDE
-* GIT
-
-# Once installation is done please run following commands:-
-
-* mvn clean install (for installing all the dependencies)
-* java -jar target\JAR_NAME.jar (to execute project)
-
-# Accessing an application
-* Deployed Application By-Default can be accessed on port 8081 forexample http://IP_ADDRESS:8081
-* This application has two end points :
-* Default http://IP_ADDRESS:8081
-* User : http://IP_ADDRESS:8081/welcome/<USERNAME>
+If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
+- [ASP.NET Core](https://github.com/aspnet/Home)
+- [Visual Studio Code](https://github.com/Microsoft/vscode)
+- [Chakra Core](https://github.com/Microsoft/ChakraCore)

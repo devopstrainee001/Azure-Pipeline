@@ -1,0 +1,38 @@
+parameters:
+- name: pomFile
+  type: string
+  default: 'pom.xml'
+
+- name: publishJunit
+  type: string
+  default: '**/surefire-reports/TEST-*.xml'
+
+- name: codeCoverageTool
+  type: string
+  default: 'None'
+  values:
+    - None
+    - Cobertura
+    - JaCoCo
+
+- name: sqMavenPluginVersionChoice
+  type: string
+  default: 'latest'
+  values:
+    - pom
+    - latest
+steps:  
+  - task: Maven@3
+    displayName: MavenStep
+    inputs:
+      mavenPomFile: '${{ parameters.pomFile }}'
+      publishJUnitResults: true
+      testResultsFiles: '${{ parameters.publishJunit }}'
+      codeCoverageToolOption: None
+      javaHomeOption: 'JDKVersion'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+      sqMavenPluginVersionChoice: latest
+      

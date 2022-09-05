@@ -1,0 +1,77 @@
+parameters:
+
+- name: scannerMode
+  type: string
+  default: 'Maven'
+  values:
+  - MSBuild
+  - Maven
+  - Manual
+  - ManualWithConfigFile
+
+
+- name: sonarqubeEndpoint
+  type: string
+  default: 'SonarQube-SDBX'
+  values:
+  - SonarQube-PROD
+  - SonarQube-SDBX
+
+
+- name: projectKey
+  type: string
+  default: ''
+  
+
+
+- name: projectName
+  type: string
+  default: 'webapp'
+
+
+- name: projectVersion
+  type: string
+  default: 'master'
+
+
+- name: extraProperties
+  type: string
+  default: ''
+
+
+- name: configFile
+  type: string
+  default: 'sonar-project.properties'
+
+
+- name: sourcesDirectory
+  type: string
+  default: '.'
+
+
+- name: condition
+  type: string
+  default: ''
+
+steps:
+  - ${{ if eq(parameters.scannerMode, 'MSBuild') }}:
+    - task: SonarQubePrepare@4
+      displayName: 'Prepare Analysis on SonarQube'
+      inputs:
+        SonarQube: '${{ parameters.sonarqubeEndpoint }}'
+        scannerMode: MSBuild
+        projectKey: '${{ parameters.projectKey }}'
+        projectName: '${{ parameters.projectName }}'
+        projectVersion: '${{ parameters.projectVersion }}'
+        extraProperties: '${{ parameters.extraProperties }}'
+
+  - ${{ if eq(parameters.scannerMode, 'Maven') }}:
+    - task: SonarQubePrepare@4
+      displayName: 'Prepare Analysis on SonarQube'
+      inputs:
+        SonarQube: '${{ parameters.sonarqubeEndpoint }}'
+        scannerMode: Other
+        # projectKey: '${{ parameters.projectKey }}'
+        # projectName: '${{ parameters.projectName }}'
+        # projectVersion: '${{ parameters.projectVersion }}'
+        extraProperties: '${{ parameters.extraProperties }}'
